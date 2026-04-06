@@ -1,33 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import './Nav.css';
+import React, { useEffect, useState } from "react";
+import "./Nav.css";
 
-function Nav() {
-    const [show, handleShow] = useState(false);
+function Nav({ setSearchTerm }) {
+  const [show, setShow] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
-    useEffect(() => {
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 100) {
-                handleShow(true);
-            } else 
-                handleShow(false);
-                return () => {
-                    window.removeEventListener("scroll");
-                }           
-        });
-    }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      setShow(window.scrollY > 100);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    return (
-        <div className={`nav ${show && "nav__black"}`}>
-            <img
-                className="nav__logo"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
-                alt="Netflix Logo"
-            />
-            <img
-                className="nav__avatar"
-                src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
-                alt="Netflix Avatar"
-            />
+  return (
+    <div className={`nav ${show && "nav__black"}`}>
+
+      <div className="nav__left">
+        <img
+          className="nav__logo"
+          src="https://res.cloudinary.com/deakiaxyz/image/upload/v1774883554/Screenshot_2026-03-30_230241_1_ldwixi.png"
+          alt="Netflix Logo"
+        />
+
+        <ul className={`nav__menu ${menuOpen && "nav__menu--active"}`}>
+          <li>Home</li>
+          <li>TV Shows</li>
+          <li>Movies</li>
+          <li>New & Popular</li>
+          <li>My List</li>
+        </ul>
+      </div>
+
+      <div className="nav__right">
+
+        <div className="nav__icon" onClick={() => setSearchOpen(!searchOpen)}>🔍︎</div>
+        {searchOpen && (
+          <input
+            type="text"
+            className="nav__search"
+            placeholder="Search movies..."
+            onChange={(e) => setSearchTerm(e.target.value)}
+            autoFocus
+          />
+        )}
+
+        <div className="nav__icon">🕭</div>
+
+        <div
+          className="nav__profile"
+          onClick={() => setProfileOpen(!profileOpen)}
+        >
+          <img
+            className="nav__avatar"
+            src="https://res.cloudinary.com/deakiaxyz/image/upload/v1775092328/Screenshot_2026-04-02_091139_udctxz.png"
+            alt="User Avatar"
+          />
+          {profileOpen && (
+            <div className="nav__dropdown">
+              <p>Account</p>
+              <p>Settings</p>
+              <p>Logout</p>
+            </div>
+          )}
         </div>
-    );
+
+        <div
+          className="nav__hamburger"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
+        </div>
+      </div>
+    </div>
+  );
 }
+
+export default Nav;
