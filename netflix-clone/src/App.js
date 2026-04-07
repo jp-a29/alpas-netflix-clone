@@ -6,9 +6,11 @@ import Banner from './Banner';
 import Nav from "./Nav";
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <div className="app">
-      <Nav />
+      <Nav searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <Banner />
       <Row 
       title="NETFLIX ORIGINALS" 

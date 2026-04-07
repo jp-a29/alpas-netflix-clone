@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Nav.css";
 
-function Nav({ setSearchTerm }) {
+function Nav({ searchTerm, setSearchTerm }) {
   const [show, setShow] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -42,6 +42,7 @@ function Nav({ setSearchTerm }) {
             type="text"
             className="nav__search"
             placeholder="Search movies..."
+            value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             autoFocus
           />
